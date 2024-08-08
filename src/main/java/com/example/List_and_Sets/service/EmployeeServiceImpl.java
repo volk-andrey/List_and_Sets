@@ -38,12 +38,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     public Employee removeEmployee(String firstName, String lastName) throws EmployeeNotFoundInListExeption {
         Employee employee = new Employee(firstName, lastName);
-        if (!employees.contains(employee)) {
-            throw new EmployeeNotFoundInListExeption();
+        if (employees.contains(employee)) {
+            employees.remove(employee);
+            return employee;
         }
-
-        employees.remove(employee);
-        return employee;
+        throw new EmployeeNotFoundInListExeption();
     }
 
     @Override
