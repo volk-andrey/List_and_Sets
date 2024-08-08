@@ -24,11 +24,12 @@ public class EmployeeServiceImpl implements EmployeeService{
     public Employee addEmployee(String firstName, String lastName) throws EmployeeAlreadeyAddedInListExeption, EmployeeStorageFullListExeption {
         Employee employee = new Employee(firstName, lastName);
         if (employees.size() > STORAGE_SIZE) {
-            throw new EmployeeStorageFullListExeption("Хранилище заполнено");
+            throw new EmployeeStorageFullListExeption();
         }
 
         if (employees.contains(employee)) {
-            throw new EmployeeAlreadeyAddedInListExeption("Сотрудник уже добавлен в хранилище");
+            throw new EmployeeAlreadeyAddedInListExeption();
+
         }
 
         employees.add(employee);
@@ -38,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     public Employee removeEmployee(String firstName, String lastName) throws EmployeeNotFoundInListExeption {
         Employee employee = new Employee(firstName, lastName);
         if (!employees.contains(employee)) {
-            throw new EmployeeNotFoundInListExeption("Сотрудник не найден в хранилище");
+            throw new EmployeeNotFoundInListExeption();
         }
 
         employees.remove(employee);
@@ -47,16 +48,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public Employee findEmployee(String firstName, String lastName) throws EmployeeNotFoundInListExeption {
-        Employee employeeFind = new Employee(firstName, lastName);
-        if (employees.contains(employeeFind)) {
-            throw new EmployeeNotFoundInListExeption("Сотрудник не найден в хранилище");
+        Employee employee = new Employee(firstName, lastName);
+        if (employees.contains(employee)) {
+            return employee;
+        } else {
+            throw new EmployeeNotFoundInListExeption();
         }
-        for (Employee employee : employees) {
-            if (employee.equals(employeeFind)){
-                return employee;
-            }
-        }
-        return employeeFind;
     }
 
     @Override
