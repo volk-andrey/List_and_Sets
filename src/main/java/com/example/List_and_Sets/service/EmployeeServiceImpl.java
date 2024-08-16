@@ -1,63 +1,71 @@
 package com.example.List_and_Sets.service;
 
 import com.example.List_and_Sets.Employee;
-import com.example.List_and_Sets.exeption.EmployeeAlreadeyAddedInListExeption;
-import com.example.List_and_Sets.exeption.EmployeeNotFoundInListExeption;
-import com.example.List_and_Sets.exeption.EmployeeStorageFullListExeption;
+import com.example.List_and_Sets.exeption.EmployeeAlreadeyAddedExeption;
+import com.example.List_and_Sets.exeption.EmployeeNotFoundExeption;
+import com.example.List_and_Sets.exeption.EmployeeStorageFullExeption;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
     private final int STORAGE_SIZE = 5;
-    private final List<Employee> employees = new ArrayList<>(List.of(
-            new Employee("John", "Smith"),
-            new Employee("Jane", "Doe"),
-            new Employee("Mary", "Jones"),
-            new Employee("Bob", "Smith"),
-            new Employee("Jim", "Smith")
+    private final Map<String, Employee> employees = new HashMap<>(Map.of(
+            "ИванИвановИванович",
+            new Employee("Иван", "Иванов", "Иванович"),
+            "ГорбуновЕмельянСтаниславович",
+            new Employee("Горбунов", "Емельян", "Станиславович"),
+            "ЩербаковВелорийФедорович",
+            new Employee("Щербаков", "Велорий", "Федорович"),
+            "ЗиминЮлианМартынович",
+            new Employee("Зимин", "Юлиан","Мартынович"),
+            "КалашниковГеннадийФедотович",
+            new Employee("Калашников", "Геннадий","Федотович")
     ));
 
     @Override
-    public Employee addEmployee(String firstName, String lastName) throws EmployeeAlreadeyAddedInListExeption, EmployeeStorageFullListExeption {
-        Employee employee = new Employee(firstName, lastName);
-        if (employees.size() > STORAGE_SIZE) {
-            throw new EmployeeStorageFullListExeption();
+    public Employee addEmployee(String firstName, String lastName, String serName) throws EmployeeAlreadeyAddedExeption, EmployeeStorageFullExeption {
+        Employee employee = new Employee(firstName, lastName, serName);
+        String checkEmployee = firstName + lastName + serName;
+        if (employees.containsKey(checkEmployee)) {
+            System.out.println("Employee already exists");
+            throw new EmployeeAlreadeyAddedExeption();
         }
-
-        if (employees.contains(employee)) {
-            throw new EmployeeAlreadeyAddedInListExeption();
-
+        if (employees.size() == STORAGE_SIZE) {
+            System.out.println("Employee storage is full");
+            throw new EmployeeStorageFullExeption();
         }
-
-        employees.add(employee);
+        employees.put(checkEmployee, employee);
+        System.out.println("Employee added successfully");
         return employee;
     }
 
-    public Employee removeEmployee(String firstName, String lastName) throws EmployeeNotFoundInListExeption {
-        Employee employee = new Employee(firstName, lastName);
-        if (employees.contains(employee)) {
-            employees.remove(employee);
+    public Employee removeEmployee(String firstName, String lastName, String serName) throws EmployeeNotFoundExeption {
+        Employee employee = new Employee(firstName, lastName, serName);
+        String checkEmployee = firstName + lastName + serName;
+        if (employees.containsKey(checkEmployee)) {
+            employees.remove(checkEmployee);
             return employee;
         }
-        throw new EmployeeNotFoundInListExeption();
+        throw new EmployeeNotFoundExeption();
     }
 
     @Override
-    public Employee findEmployee(String firstName, String lastName) throws EmployeeNotFoundInListExeption {
-        Employee employee = new Employee(firstName, lastName);
-        if (employees.contains(employee)) {
+    public Employee findEmployee(String firstName, String lastName, String serName) throws EmployeeNotFoundExeption {
+        Employee employee = new Employee(firstName, lastName, serName);
+        String checkEmployee = firstName + lastName + serName;
+        if (employees.containsKey(checkEmployee)) {
             return employee;
         } else {
-            throw new EmployeeNotFoundInListExeption();
+            throw new EmployeeNotFoundExeption();
         }
     }
 
     @Override
     public List<Employee> getAllEmployees() {
-        return employees;
+        List<Employee> employee = new ArrayList<>(employees.values());
+        return  employee;
     }
 
 }

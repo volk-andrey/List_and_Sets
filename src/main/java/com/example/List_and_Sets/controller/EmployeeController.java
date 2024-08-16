@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -22,23 +23,26 @@ public class EmployeeController {
     @GetMapping("/add")
     public Employee addEmployee(
         @RequestParam("firstName") String firstname,
-        @RequestParam("lastName") String lastname
+        @RequestParam("lastName") String lastname,
+        @RequestParam("serName") String sername
     ){
-        return employeeService.addEmployee(firstname,lastname);
+        return employeeService.addEmployee(firstname,lastname,sername);
     }
     @GetMapping("/remove")
     public Employee removeEmployee(
             @RequestParam("firstName") String firstname,
-            @RequestParam("lastName") String lastname
+            @RequestParam("lastName") String lastname,
+            @RequestParam("serName") String sername
     ){
-        return employeeService.removeEmployee(firstname,lastname);
+        return employeeService.removeEmployee(firstname,lastname,sername);
     }
     @GetMapping("/find")
     public Employee findEmployee(
             @RequestParam("firstName") String firstname,
-            @RequestParam("lastName") String lastname
+            @RequestParam("lastName") String lastname,
+            @RequestParam("serName") String sername
     ){
-        return employeeService.findEmployee(firstname,lastname);
+        return employeeService.findEmployee(firstname,lastname,sername);
     }
 
     @GetMapping("/allEmployees")
