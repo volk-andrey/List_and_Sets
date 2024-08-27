@@ -24,9 +24,12 @@ public class EmployeeController {
     public Employee addEmployee(
         @RequestParam("firstName") String firstname,
         @RequestParam("lastName") String lastname,
-        @RequestParam("serName") String sername
+        @RequestParam("serName") String sername,
+        @RequestParam("salary") long salary,
+        @RequestParam("department") int department
+
     ){
-        return employeeService.addEmployee(firstname,lastname,sername);
+        return employeeService.addEmployee(firstname,lastname,sername,salary,department);
     }
     @GetMapping("/remove")
     public Employee removeEmployee(
@@ -48,5 +51,22 @@ public class EmployeeController {
     @GetMapping("/allEmployees")
     public List<Employee> allEmployees(){
         return employeeService.getAllEmployees();
+    }
+
+    @GetMapping("/department/min-salary")
+    public Employee getDepartamentMinSalary(@RequestParam("department") int department){
+        return employeeService.getDepartamentMinSalary(department);
+    }
+    @GetMapping("/department/max-salary")
+    public Employee getDepartamentMaxSalary(@RequestParam("department") int department){
+        return employeeService.getDepartamentMaxSalary(department);
+    }
+    @GetMapping("/department/all")
+    public List<Employee> getDepartamentAll(@RequestParam(defaultValue = "125") int department){
+        if (department == 125){
+            return employeeService.getDepartamentAllSorted();
+        } else {
+            return employeeService.getDepartamentAll(department);
+        }
     }
 }
