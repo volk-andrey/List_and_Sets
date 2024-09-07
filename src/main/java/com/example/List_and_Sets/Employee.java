@@ -1,4 +1,7 @@
 package com.example.List_and_Sets;
+import com.example.List_and_Sets.exeption.BadRequestExeption;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -11,9 +14,9 @@ public class Employee {
 
 
     public Employee(String firstName, String lastName, String serName, int departament, long salary) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.serName = serName;
+        this.firstName = checkInput(firstName);
+        this.lastName = checkInput(lastName);
+        this.serName = checkInput(serName);
         this.departament = departament;
         this.salary = salary;
     }
@@ -60,6 +63,13 @@ public class Employee {
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName, serName, salary, departament);
+    }
+
+    private String checkInput(String string){
+        if (StringUtils.containsAny(string,"0123456789!@#$%&*()_+-=")){
+            throw new BadRequestExeption();
+        }
+        return StringUtils.capitalize(StringUtils.lowerCase(string));
     }
 }
 
