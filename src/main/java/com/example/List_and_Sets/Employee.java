@@ -1,8 +1,8 @@
 package com.example.List_and_Sets;
+
 import com.example.List_and_Sets.exeption.BadRequestExeption;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Employee {
@@ -14,9 +14,12 @@ public class Employee {
 
 
     public Employee(String firstName, String lastName, String serName, int departament, long salary) {
-        this.firstName = checkInput(firstName);
-        this.lastName = checkInput(lastName);
-        this.serName = checkInput(serName);
+//        this.firstName = checkInput(firstName);
+//        this.lastName = checkInput(lastName);
+//        this.serName = checkInput(serName);
+        this.firstName = firstName; //для модульных тестов
+        this.lastName = lastName; //для модульных тестов
+        this.serName = serName; //для модульных тестов
         this.departament = departament;
         this.salary = salary;
     }

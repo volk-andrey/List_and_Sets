@@ -10,6 +10,20 @@ import java.util.List;
 
 @Service
 public interface EmployeeService  {
+
+    default Employee addEmployee(Employee employee){
+        return  addEmployee(employee.getFirstName(),
+                employee.getLastName(),
+                employee.getSerName(),
+                employee.getSalary(),
+                employee.getDepartament());
+    }
+    default Employee removeEmployee(Employee employee){
+        return removeEmployee(employee.getFirstName(),
+                employee.getLastName(),
+                employee.getSerName());
+    }
+
     Employee addEmployee(String firstName, String lastName, String serName, long salary, int department) throws EmployeeAlreadeyAddedExeption, EmployeeStorageFullExeption;
 
     Employee findEmployee(String firstName, String lastName, String serName) throws EmployeeNotFoundExeption;

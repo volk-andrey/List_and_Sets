@@ -1,10 +1,12 @@
 package com.example.List_and_Sets.service;
 
 import com.example.List_and_Sets.Employee;
+import com.example.List_and_Sets.exeption.EmployeeNotFoundExeption;
 import org.springframework.stereotype.Service;
 
-
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,31 +20,31 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<Employee> getEmployeesByDepartment(int departmentId) {
-        return this.getStreamEmployeeByDepartment(departmentId)
+        return getStreamEmployeeByDepartment(departmentId)
                 .toList();
     }
 
     @Override
     public long getSumOfSalaryByDepartment(int departmentId) {
-        return this.getStreamEmployeeByDepartment(departmentId)
+        return getStreamEmployeeByDepartment(departmentId)
                 .mapToLong(Employee::getSalary)
                 .sum();
     }
 
     @Override
     public long getMaxOfSalaryByDepartment(int departmentId) {
-        return this.getStreamEmployeeByDepartment(departmentId)
+        return getStreamEmployeeByDepartment(departmentId)
                 .mapToLong(Employee::getSalary)
                 .max()
-                .orElseThrow();
+                .orElseThrow(() -> new EmployeeNotFoundExeption());
     }
 
     @Override
     public long getMinOfSalaryByDepartment(int departmentId) {
-        return this.getStreamEmployeeByDepartment(departmentId)
+        return getStreamEmployeeByDepartment(departmentId)
                 .mapToLong(Employee::getSalary)
                 .min()
-                .orElseThrow();
+                .orElseThrow((()-> new EmployeeNotFoundExeption()));
     }
 
     @Override
